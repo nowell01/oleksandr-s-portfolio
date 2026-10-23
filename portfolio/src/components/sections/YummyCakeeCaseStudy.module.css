@@ -1,0 +1,28 @@
+.goal {
+  padding: var(--space-4) var(--space-5);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-5);
+}
+
+.mobile {
+  max-width: 260px;
+}
+
+.stack {
+  margin-top: var(--space-5);
+}
+
+@media (max-width: 720px) {
+  .gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

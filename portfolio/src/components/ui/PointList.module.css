@@ -1,0 +1,29 @@
+.list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  padding-left: var(--space-5);
+  color: var(--fg-muted);
+}
+
+.item strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.item::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
