@@ -30,18 +30,18 @@ export const navLinks = [
 export const skillGroups = [
   {
     title: 'Backend',
-    items: ['C#', '.NET 9', 'ASP.NET Core Web API', 'SignalR', 'BackgroundService', 'REST'],
+    items: ['C#', '.NET 9', 'ASP.NET Core Web API', 'Python', 'Java'],
   },
   {
     title: 'Frontend',
-    items: ['React', 'Vite', 'JavaScript', 'HTML5', 'CSS3', 'Responsive design'],
+    items: ['React', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Responsive design'],
   },
   {
     title: 'Cloud & Data',
-    items: ['Azure App Service', 'Vercel', 'SQL', 'JSON storage'],
+    items: ['Azure App Service', 'Vercel', 'SQL/NoSQL', 'Docker'],
   },
   {
-    title: 'Tooling',
-    items: ['Git', 'GitHub', 'Visual Studio', 'Telegram Bot API', 'Third-party REST APIs'],
+    title: 'Tools/Tests',
+    items: ['Git/GitHub', 'xUnit', 'MCTests', 'Telegram Bot API', 'Postman'],
   },
 ];

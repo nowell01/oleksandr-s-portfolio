@@ -9,8 +9,8 @@ export const cexDex = {
   category: 'Full-stack',
   badge: 'Personal',
   theme: 'violet',
-  title: 'CEX·DEX Arbitrage Dashboard',
-  subtitle: 'Real-time price and arbitrage monitoring across 7 crypto exchanges',
+  title: 'CryptoScan',
+  subtitle: 'Real-time price and arbitrage monitoring across 7 crypto exchanges within intigrated AI API call for Alerts Summary',
   summary:
     'A .NET 9 background service checks 21 trading pairs on 5 centralized and 2 decentralized exchanges. When the price gap passes 3%, it sends the alert to a React dashboard over SignalR and to Telegram subscribers.',
   links: [
@@ -34,7 +34,7 @@ export const cexDex = {
     { value: '7', label: 'exchanges: 5 centralized, 2 decentralized' },
     { value: '21', label: 'trading pairs checked in every cycle' },
     { value: '5 min', label: 'polling interval, all exchanges queried in parallel' },
-    { value: '2,600+', label: 'alerts logged in production since Aug 2026' },
+    { value: '3000+', label: 'alerts logged in production since Aug 2026' },
   ],
   problem: [
     'The same coin often trades at slightly different prices on different exchanges. Checking seven exchanges by hand is too slow to catch these gaps, and on decentralized exchanges they can be large but short-lived.',
@@ -143,7 +143,7 @@ export const yummyCakee = {
   badge: 'Real client',
   theme: 'gold',
   title: 'Yummy Cakee — Bakery Website',
-  subtitle: 'A website for a home bakery in Ontario, built for a real client',
+  subtitle: 'A website for a home bakery in Ontario',
   summary:
     'A responsive marketing site for a home bakery in Ontario. It presents the menu, prices and a gallery of past cakes, and every call to action sends visitors to the Instagram DMs where the client takes orders.',
   links: [
