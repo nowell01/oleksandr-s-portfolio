@@ -14,7 +14,7 @@ export const cexDex = {
   summary:
     'A .NET 9 background service checks 21 trading pairs on 5 centralized and 2 decentralized exchanges. When the price gap passes 3%, it sends the alert to a React dashboard over SignalR and to Telegram subscribers. An AI summary turns the alert log into a short report on demand.',
   links: [
-    { label: 'Live', text: 'cex-dex-client.vercel.app', url: 'https://cex-dex-client.vercel.app' },
+    { label: 'Live', text: 'cryptoscan.tech', url: 'https://cryptoscan.tech' },
     {
       label: 'Code',
       text: 'github.com/nowell01/CEX-DEX-PriceParser',
