@@ -4,6 +4,7 @@ import Hero from './components/sections/Hero.jsx';
 import ProjectsOverview from './components/sections/ProjectsOverview.jsx';
 import CexDexCaseStudy from './components/sections/CexDexCaseStudy.jsx';
 import YummyCakeeCaseStudy from './components/sections/YummyCakeeCaseStudy.jsx';
+import SnowRemovalCaseStudy from './components/sections/SnowRemovalCaseStudy.jsx';
 import Skills from './components/sections/Skills.jsx';
 import Contact from './components/sections/Contact.jsx';
 import { navLinks } from './data/profile.js';
@@ -23,6 +24,7 @@ export default function App() {
         <ProjectsOverview />
         <CexDexCaseStudy />
         <YummyCakeeCaseStudy />
+        <SnowRemovalCaseStudy />
         <Skills />
         <Contact />
       </main>

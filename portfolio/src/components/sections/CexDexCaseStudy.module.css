@@ -95,7 +95,7 @@
 }
 
 .method[data-method='POST'] {
-  color: var(--rose);
+  color: var(--gold-deep);
 }
 
 .method[data-method='WS'] {
@@ -117,4 +117,14 @@
   .challenges {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* AI summary block: more air between text, screenshot and notes */
+.aiBlock {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.aiBlock > :first-child {
+  margin-bottom: calc(var(--space-4) - var(--space-6));
 }

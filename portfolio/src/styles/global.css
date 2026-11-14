@@ -1,37 +1,40 @@
 /*
-  Layout: a dark masthead band, then a light reading surface with one
-  case study per project. Each project carries its own accent
-  (violet for CEX·DEX, gold for Yummy Cakee), matching the PDF portfolio.
+  Layout: a bone-white reading surface with royal-blue feature bands and
+  one case study per project. Each project carries its own accent
+  (royal blue for CEX·DEX, gold for Yummy Cakee); bright gold is the
+  supporting colour throughout.
 */
 :root {
   /* Surfaces & text (light) */
-  --bg: #f7f7f9;
-  --surface: #ffffff;
-  --surface-muted: #f0eff4;
-  --border: #e3e2ea;
-  --fg: #16151b;
-  --fg-muted: #5c5a68;
-  --fg-subtle: #8a8896;
+  --bg: #f5f0e3; /* bone white */
+  --surface: #fcfaf3;
+  --surface-muted: #ece5d3;
+  --border: #ddd4be;
+  --fg: #0a0a0a;
+  --fg-muted: #3a3832;
+  --fg-subtle: #6b675c;
 
-  /* Masthead band (dark in both themes) */
-  --ink: #141318;
-  --ink-raised: #1d1b23;
-  --ink-border: #2e2b38;
-  --ink-fg: #f4f3f8;
-  --ink-muted: #a9a6b6;
+  /* Royal-blue bands (hero card, diagram, contact) */
+  --ink: #132a7c;
+  --ink-raised: #1c378f;
+  --ink-border: #3a53a8;
+  --ink-fg: #f9f6ee;
+  --ink-muted: #c5cdea;
 
   /* Accents */
-  --violet: #7c3aed;
-  --violet-soft: #ede7fd;
-  --violet-on-ink: #a78bfa;
-  --gold: #a77b45;
-  --gold-soft: #f5ede2;
-  --rose: #c0285f;
-  --focus: #7c3aed;
+  --royal: #132a7c;
+  --royal-soft: #dde3f3;
+  --gold: #d4af37; /* metallic gold: rules and marks, on bone-white surfaces only */
+  --gold-metal: linear-gradient(135deg, #a8842a 0%, #ecd690 45%, #c9a13b 60%, #8f6e1e 100%);
+  --gold-text: linear-gradient(100deg, #7a5c12 0%, #a8842a 45%, #8f6e1e 70%, #7a5c12 100%); /* heading gold, dark enough to read */
+  --gold-deep: #7d5a00; /* gold that stays readable as text on bone white */
+  --gold-soft: #fbf0cc;
+  --focus: #132a7c;
 
   /* Type */
-  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: 'Bodoni Moda', 'Bodoni MT', Didot, 'Times New Roman', serif;
+  --font-name: 'Marcellus', 'Lora', Georgia, serif; /* the name: clean, low-contrast Roman capitals */
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
 
   --text-xs: 0.75rem;
@@ -57,51 +60,8 @@
   --container: 1120px;
   --header-height: 64px;
 
-  --shadow: 0 1px 2px rgb(22 21 27 / 0.04), 0 8px 24px rgb(22 21 27 / 0.06);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #0f0e13;
-    --surface: #17161d;
-    --surface-muted: #1d1c24;
-    --border: #2a2833;
-    --fg: #eeedf3;
-    --fg-muted: #a7a4b4;
-    --fg-subtle: #7a7787;
-    --ink: #0a090d;
-    --ink-raised: #15141a;
-    --ink-border: #26242e;
-    --violet: #a78bfa;
-    --violet-soft: #241d38;
-    --gold: #d2a56c;
-    --gold-soft: #2a2218;
-    --rose: #f472a6;
-    --focus: #a78bfa;
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme='dark'] {
-  --bg: #0f0e13;
-  --surface: #17161d;
-  --surface-muted: #1d1c24;
-  --border: #2a2833;
-  --fg: #eeedf3;
-  --fg-muted: #a7a4b4;
-  --fg-subtle: #7a7787;
-  --ink: #0a090d;
-  --ink-raised: #15141a;
-  --ink-border: #26242e;
-  --violet: #a78bfa;
-  --violet-soft: #241d38;
-  --gold: #d2a56c;
-  --gold-soft: #2a2218;
-  --rose: #f472a6;
-  --focus: #a78bfa;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
-  color-scheme: dark;
+  --shadow: 0 1px 2px rgb(40 32 10 / 0.05), 0 8px 24px rgb(40 32 10 / 0.08);
+  color-scheme: light;
 }
 
 *,
@@ -133,7 +93,7 @@ body::before {
   inset: 0 0 auto;
   height: env(safe-area-inset-top, 0px);
   z-index: 60;
-  background: var(--ink);
+  background: var(--bg);
 }
 
 h1,
@@ -230,12 +190,39 @@ code {
 
 /* Per-project accent: set data-accent on a section to re-theme its children */
 :root,
-[data-accent='violet'] {
-  --accent: var(--violet);
-  --accent-soft: var(--violet-soft);
+[data-accent='royal'] {
+  --accent: var(--royal);
+  --accent-soft: var(--royal-soft);
+  --accent-mark: var(--gold-metal); /* dots, rules and bars */
 }
 
 [data-accent='gold'] {
-  --accent: var(--gold);
+  --accent: var(--gold-deep);
   --accent-soft: var(--gold-soft);
+}
+
+/* On the royal-blue bands a blue focus ring would vanish, so use bone white */
+[class*='skillCard'],
+[class*='diagram'],
+#contact {
+  --focus: var(--ink-fg);
+}
+
+/* Main headings in metallic gold, on bone-white surfaces only */
+h1,
+h2 {
+  padding-bottom: 0.08em; /* keeps descenders inside the clipped gradient */
+  color: var(--gold-deep);
+  background: var(--gold-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#contact h2,
+[class*='diagram'] h2,
+[class*='skillCard'] h2 {
+  background: none;
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
 }

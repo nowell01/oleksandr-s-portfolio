@@ -46,6 +46,23 @@ export default function CexDexCaseStudy() {
         <ArchitectureDiagram architecture={project.architecture} />
       </div>
 
+      <div className={`${shared.block} ${styles.aiBlock}`}>
+        <SubHeading>New: AI alert summary</SubHeading>
+        <div className={shared.twoCol}>
+          <div className={shared.prose}>
+            {project.aiSummary.intro.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+          <PointList items={project.aiSummary.steps.slice(0, 3)} />
+        </div>
+        <Figure image={project.aiSummary.image} />
+        <div className={shared.twoCol}>
+          <PointList items={project.aiSummary.steps.slice(3, 5)} />
+          <PointList items={project.aiSummary.steps.slice(5)} />
+        </div>
+      </div>
+
       <div className={shared.block}>
         <SubHeading>Engineering problems I solved</SubHeading>
         <div className={styles.challengesLayout}>

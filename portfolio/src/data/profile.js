@@ -8,9 +8,9 @@ export const profile = {
     label: 'github.com/nowell01',
     url: 'https://github.com/nowell01',
   },
-  currentRole: {
-    title: 'Junior Software Developer',
-    company: 'Green Solutions',
+  cardSummary: {
+    role: 'Junior Software Developer',
+    experience: '2 years',
   },
   education: {
     program: 'Computer Programming & Analysis (Co-op)',
@@ -20,9 +20,8 @@ export const profile = {
 };
 
 export const navLinks = [
-  { id: 'work', label: 'Work' },
-  { id: 'cex-dex', label: 'CEX·DEX' },
-  { id: 'yummy-cakee', label: 'Yummy Cakee' },
+  { id: 'top', label: 'Bio' },
+  { id: 'work', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
   { id: 'contact', label: 'Contact' },
 ];
@@ -44,4 +43,16 @@ export const skillGroups = [
     title: 'Tools/Tests',
     items: ['Git/GitHub', 'xUnit', 'MCTests', 'Telegram Bot API', 'Postman'],
   },
+];
+
+/* Shown as icon tiles in the hero; `icon` keys map to glyphs in Hero.jsx */
+export const coreSkills = [
+  { name: 'C#', icon: 'csharp' },
+  { name: '.NET 9', icon: 'dotnet' },
+  { name: 'ASP.NET Core', icon: 'api' },
+  { name: 'React', icon: 'react' },
+  { name: 'Python', icon: 'python' },
+  { name: 'Azure', icon: 'cloud' },
+  { name: 'SQL / NoSQL', icon: 'database' },
+  { name: 'Docker', icon: 'container' },
 ];

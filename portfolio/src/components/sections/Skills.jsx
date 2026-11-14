@@ -7,7 +7,6 @@ export default function Skills() {
     <section id="skills" className={styles.section} aria-labelledby="skills-title">
       <div className="container">
         <SectionHeading id="skills-title" eyebrow="Skills" title="Tools I use in production">
-          Everything listed here is used in at least one of the projects above.
         </SectionHeading>
         <div className={styles.grid}>
           {skillGroups.map(({ title, items }) => (
