@@ -8,6 +8,10 @@ export const profile = {
     label: 'github.com/nowell01',
     url: 'https://github.com/nowell01',
   },
+  linkedin: {
+    label: 'linkedin.com/in/oleksandr-novytskyi',
+    url: 'https://www.linkedin.com/in/oleksandr-novytskyi-928489201/',
+  },
   cardSummary: {
     role: 'Junior Software Developer',
     experience: '2 years',

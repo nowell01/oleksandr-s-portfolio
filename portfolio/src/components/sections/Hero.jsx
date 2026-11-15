@@ -1,4 +1,5 @@
 import { coreSkills, profile } from '../../data/profile.js';
+import  master_cv  from '../../data/master_cv.pdf';
 import styles from './Hero.module.css';
 
 /* Simple line glyphs (24×24) */
@@ -115,8 +116,8 @@ export default function Hero() {
             <a className={styles.primary} href="#work">
               View projects
             </a>
-            <a className={styles.secondary} href={github.url} target="_blank" rel="noreferrer">
-              GitHub profile
+            <a className={styles.secondary} href={master_cv} download="master_cv.pdf" target="_blank">
+              Download CV
             </a>
           </div>
 

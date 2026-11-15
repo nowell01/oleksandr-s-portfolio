@@ -62,6 +62,9 @@ export default function Header({ activeId }) {
           <a className={styles.cta} href={profile.github.url} target="_blank" rel="noreferrer">
             GitHub
           </a>
+          <a className={styles.cta} href={profile.linkedin.url} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
         </nav>
       </div>
     </header>
