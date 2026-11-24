@@ -3,5 +3,5 @@
 Personal portfolio site presenting three production projects:
 
 - **CEX·DEX Arbitrage Dashboard** — .NET 9 + SignalR + React system that monitors 21 trading pairs across 7 exchanges.
-- **Yummy Cakee** — responsive website built and delivered for a home-bakery client.
+- **Todo App** — full stack FastAPI + React/Typescript application for creating/tracking/monitoring todo's
 - **Brilliant Snow Removal** - responsive website built and delivered for a snow removal company based in Toronto. 
