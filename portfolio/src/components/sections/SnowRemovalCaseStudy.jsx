@@ -5,7 +5,7 @@ import SubHeading from '../ui/SubHeading.jsx';
 import TagList from '../ui/TagList.jsx';
 import CaseStudy from './CaseStudy.jsx';
 import shared from './CaseStudy.module.css';
-import styles from './YummyCakeeCaseStudy.module.css';
+import styles from './ClientCaseStudy.module.css';
 
 export default function SnowRemovalCaseStudy() {
   const project = snowRemoval;

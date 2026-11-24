@@ -1,4 +1,5 @@
 import { cexDex } from '../../data/projects.js';
+import EndpointTable from '../ui/EndpointTable.jsx';
 import Figure from '../ui/Figure.jsx';
 import PointList from '../ui/PointList.jsx';
 import SubHeading from '../ui/SubHeading.jsx';
@@ -81,37 +82,11 @@ export default function CexDexCaseStudy() {
       <div className={shared.twoCol}>
         <div className={shared.block}>
           <SubHeading>REST &amp; real-time API</SubHeading>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <caption className="visually-hidden">Backend endpoints</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Method</th>
-                  <th scope="col">Route</th>
-                  <th scope="col">Purpose</th>
-                </tr>
-              </thead>
-              <tbody>
-                {project.endpoints.map(({ method, path, description }) => (
-                  <tr key={`${method} ${path}`}>
-                    <td>
-                      <span className={styles.method} data-method={method}>
-                        {method}
-                      </span>
-                    </td>
-                    <td>
-                      <code>{path}</code>
-                    </td>
-                    <td>{description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <EndpointTable endpoints={project.endpoints} caption="CryptoScan API endpoints" />
         </div>
         <div className={shared.block}>
           <SubHeading>Tech stack</SubHeading>
-          <TagList items={project.stack} label="CEX·DEX tech stack" />
+          <TagList items={project.stack} label="CryptoScan tech stack" />
         </div>
       </div>
     </CaseStudy>

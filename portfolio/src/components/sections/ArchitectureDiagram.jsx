@@ -19,7 +19,7 @@ function Connector({ label }) {
 }
 
 /**
- * Data flow of the CEX·DEX system, drawn with HTML and CSS
+ * Data flow of the CryptoScan system, drawn with HTML and CSS
  * so it stays crisp, themeable and readable by screen readers.
  */
 export default function ArchitectureDiagram({ architecture }) {
@@ -29,7 +29,7 @@ export default function ArchitectureDiagram({ architecture }) {
     <figure className={styles.diagram}>
       <figcaption className="visually-hidden">
         Prices from seven exchanges flow into PriceMonitorService, then ArbitrageDetector, then AlertService, which
-        feeds the SignalR hub, Telegram notifier, JSON storage and REST API. The React dashboard and Telegram bot
+        feeds the SignalR hub, Telegram notifier, PostgreSQL storage and REST API. The React dashboard and Telegram bot
         consume them.
       </figcaption>
 
