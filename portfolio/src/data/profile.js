@@ -33,7 +33,7 @@ export const navLinks = [
 export const skillGroups = [
   {
     title: 'Backend',
-    items: ['C#', '.NET 9', 'ASP.NET Core Web API', 'Python', 'Java'],
+    items: ['C#', '.NET 9', 'ASP.NET Core Web API', 'Python', 'FastAPI', 'Java'],
   },
   {
     title: 'Frontend',
@@ -41,11 +41,11 @@ export const skillGroups = [
   },
   {
     title: 'Cloud & Data',
-    items: ['Azure App Service', 'Vercel', 'SQL/NoSQL', 'Docker'],
+    items: ['Azure Container Apps', 'PostgreSQL', 'EF Core', 'Docker', 'Vercel', 'SQL/NoSQL'],
   },
   {
     title: 'Tools/Tests',
-    items: ['Git/GitHub', 'xUnit', 'MCTests', 'Telegram Bot API', 'Postman'],
+    items: ['Git/GitHub', 'GitHub Actions', 'xUnit', 'MCTests', 'pytest', 'Telegram Bot API', 'Postman'],
   },
 ];
 

@@ -36,8 +36,8 @@ export default function ProjectsOverview() {
   return (
     <section id="work" className={styles.section} aria-labelledby="work-title">
       <div className="container">
-        <SectionHeading id="work-title" eyebrow="Selected work" title="Three projects running in production">
-          One full-stack system I designed and run on my own, and two websites delivered to paying clients.
+        <SectionHeading id="work-title" eyebrow="Selected work" title="Three projects, from idea to deployment">
+          Two full-stack systems I designed and built on my own (.NET and Python), and a website delivered to a paying client.
         </SectionHeading>
         <div className={styles.grid}>
           {projects.map((project) => (

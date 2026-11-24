@@ -3,7 +3,7 @@ import Footer from './components/layout/Footer.jsx';
 import Hero from './components/sections/Hero.jsx';
 import ProjectsOverview from './components/sections/ProjectsOverview.jsx';
 import CexDexCaseStudy from './components/sections/CexDexCaseStudy.jsx';
-import YummyCakeeCaseStudy from './components/sections/YummyCakeeCaseStudy.jsx';
+import TodoAppCaseStudy from './components/sections/TodoAppCaseStudy.jsx';
 import SnowRemovalCaseStudy from './components/sections/SnowRemovalCaseStudy.jsx';
 import Skills from './components/sections/Skills.jsx';
 import Contact from './components/sections/Contact.jsx';
@@ -23,7 +23,7 @@ export default function App() {
         <Hero />
         <ProjectsOverview />
         <CexDexCaseStudy />
-        <YummyCakeeCaseStudy />
+        <TodoAppCaseStudy />
         <SnowRemovalCaseStudy />
         <Skills />
         <Contact />

@@ -12,13 +12,13 @@ export const cexDex = {
   title: 'CryptoScan',
   subtitle: 'Real-time price and arbitrage monitoring across 7 crypto exchanges, with AI summaries of alert activity',
   summary:
-    'A .NET 9 background service checks 21 trading pairs on 5 centralized and 2 decentralized exchanges. When the price gap passes 3%, it sends the alert to a React dashboard over SignalR and to Telegram subscribers. An AI summary turns the alert log into a short report on demand.',
+    'A .NET 9 background service checks 21 trading pairs on 5 centralized and 2 decentralized exchanges. When the price gap passes 3%, it sends the alert to a React dashboard over SignalR and to Telegram subscribers. Every scan and alert is stored in PostgreSQL, and an AI summary turns the alert log into a short report on demand. The API ships as a Docker image to Azure Container Apps through GitHub Actions.',
   links: [
     { label: 'Live', text: 'cryptoscan.tech', url: 'https://cryptoscan.tech' },
     {
       label: 'Code',
-      text: 'github.com/nowell01/CEX-DEX-PriceParser',
-      url: 'https://github.com/nowell01/CEX-DEX-PriceParser',
+      text: 'github.com/nowell01/CryptoScan',
+      url: 'https://github.com/nowell01/CryptoScan',
     },
   ],
   role: 'Solo · design, backend, frontend, DevOps',
@@ -26,7 +26,7 @@ export const cexDex = {
     src: 'images/dashboard.webp',
     width: 1700,
     height: 1062,
-    alt: 'CEX·DEX dashboard showing BTC, ETH, SOL and XRP price cards ranked by exchange, with an alerts sidebar on the right.',
+    alt: 'CryptoScan dashboard showing BTC, ETH, SOL and XRP price cards ranked by exchange, with an alerts sidebar on the right.',
     caption:
       'Live dashboard (desktop). Each pair card ranks exchanges by price and shows the spread. The sidebar lists arbitrage alerts as SignalR pushes them in.',
   },
@@ -45,7 +45,7 @@ export const cexDex = {
     { verb: 'Compares', text: 'every exchange pair for each coin and flags spreads above 3%' },
     { verb: 'Pushes', text: 'alerts to the dashboard over WebSockets, so there is no page refresh' },
     { verb: 'Messages', text: 'every Telegram subscriber, with a 4-minute cooldown per coin' },
-    { verb: 'Keeps', text: 'alert and price history behind a REST API' },
+    { verb: 'Stores', text: 'every price scan and alert in PostgreSQL, served through a REST API' },
     { verb: 'Summarizes', text: 'alert activity from the last hour up to 14 days with an LLM, on demand' },
   ],
   aiSummary: {
@@ -106,14 +106,15 @@ export const cexDex = {
     outputs: [
       { name: 'SignalR AlertHub', detail: '/hubs/alerts' },
       { name: 'TelegramNotifier', detail: 'all /start subscribers' },
-      { name: 'JsonStorageService', detail: 'alerts · price history' },
+      { name: 'PostgreSQL stores', detail: 'EF Core · prices · alerts · subscribers' },
       { name: 'REST API', detail: '/api/prices · /api/alerts · /api/insights' },
     ],
     clients: [
       { name: 'React + Vite dashboard', detail: 'Vercel · @microsoft/signalr' },
-      { name: 'Telegram bot', detail: 'webhook · ChatIdStore' },
+      { name: 'Telegram bot', detail: 'webhook · /start subscribers' },
     ],
-    hosting: 'Backend: Azure App Service (Windows), WebSockets enabled · Frontend: Vercel',
+    hosting:
+      'Backend: Docker image → Azure Container Apps (Linux), deployed by GitHub Actions · Database: Azure Database for PostgreSQL · Frontend: Vercel',
   },
   challenges: [
     {
@@ -121,17 +122,21 @@ export const cexDex = {
       text: 'Set up the CORS policy with credentials so the Vercel frontend can open a SignalR WebSocket to the Azure backend.',
     },
     {
-      title: 'Deadlock in file storage',
-      text: 'Found and fixed a SemaphoreSlim deadlock in the file-based storage service, so concurrent writes stay thread-safe.',
-      code: 'SemaphoreSlim',
+      title: 'From JSON files to PostgreSQL',
+      text: 'Replaced flat-file storage with PostgreSQL and EF Core migrations behind store interfaces, and wrote a one-time importer to move the existing history.',
     },
     {
-      title: 'Storage on Azure',
-      text: 'Moved data to a persistent writable path on Azure App Service, with an automatic fallback when that path is not available.',
+      title: 'Database access from a singleton',
+      text: 'The stores use IDbContextFactory to create a short-lived context per operation, so the background worker and singletons can use the database safely.',
+      code: 'IDbContextFactory',
+    },
+    {
+      title: 'From App Service to containers',
+      text: 'Containerized the API and moved it from Windows App Service to Azure Container Apps, with a GitHub Actions pipeline that builds, pushes and deploys on every push to main.',
     },
     {
       title: 'Many Telegram subscribers',
-      text: 'Added a webhook controller and a subscriber store, so anyone who sends /start gets every alert. A cooldown per coin stops spam.',
+      text: 'Added a webhook controller that saves subscribers with INSERT … ON CONFLICT DO NOTHING, so anyone who sends /start is added exactly once and gets every alert. A cooldown per coin stops spam.',
       code: '/start',
     },
     {
@@ -157,8 +162,9 @@ export const cexDex = {
     { method: 'POST', path: '/api/telegram/webhook', description: 'Adds subscribers when they send /start' },
     { method: 'GET', path: '/api/insights/summary?hours=24', description: 'AI summary of alerts in a 1 h – 14 day window' },
     { method: 'WS', path: '/hubs/alerts', description: 'SignalR stream of new alerts' },
+    { method: 'GET', path: '/health', description: 'Health check for the container platform' },
   ],
-  overviewTags: ['.NET 9', 'ASP.NET Core', 'SignalR', 'React', 'LLM API', 'Azure'],
+  overviewTags: ['.NET 9', 'ASP.NET Core', 'PostgreSQL', 'SignalR', 'React', 'Docker', 'Azure'],
   stack: [
     'C#',
     '.NET 9',
@@ -171,98 +177,146 @@ export const cexDex = {
     'IMemoryCache',
     'Rate limiting',
     'Http.Resilience',
+    'PostgreSQL',
+    'Entity Framework Core 9',
+    'Npgsql',
     'React 18',
     'Vite',
     '@microsoft/signalr',
-    'Azure App Service',
+    'Docker',
+    'Azure Container Apps',
+    'Azure Container Registry',
+    'Azure Database for PostgreSQL',
+    'GitHub Actions',
     'Vercel',
     'REST APIs',
     'Git',
   ],
 };
 
-export const yummyCakee = {
-  id: 'yummy-cakee',
+export const todoApp = {
+  id: 'todo-app',
   index: '02',
-  category: 'Front-end',
-  badge: 'Real client',
+  category: 'Full-stack',
+  badge: 'Personal',
   theme: 'gold',
-  title: 'Yummy Cakee — Bakery Website',
-  subtitle: 'A website for a home bakery in Ontario',
+  title: 'Todo App: FastAPI + React',
+  subtitle: 'A full-stack task manager with user accounts, a typed REST API and a one-command Docker setup',
   summary:
-    'A responsive marketing site for a home bakery in Ontario. It presents the menu, prices and a gallery of past cakes, and every call to action sends visitors to the Instagram DMs where the client takes orders.',
+    'A todo application with accounts, built to learn FastAPI end to end: a typed REST API with JWT login, PostgreSQL with Alembic migrations, a React + TypeScript frontend, and a Docker Compose setup that starts everything with one command.',
   links: [
-    { label: 'Live', text: 'yummy-cakee.vercel.app', url: 'https://yummy-cakee.vercel.app' },
     {
       label: 'Code',
-      text: 'github.com/nowell01/yummy-cakee-website',
-      url: 'https://github.com/nowell01/yummy-cakee-website',
+      text: 'github.com/nowell01/todo-app',
+      url: 'https://github.com/nowell01/todo-app',
     },
   ],
-  role: 'Freelance · design, build, deployment',
+  role: 'Solo · backend, frontend, tests, DevOps',
   cover: {
-    src: 'images/cakee-hero.webp',
-    width: 1700,
-    height: 1062,
-    alt: 'Yummy Cakee homepage hero with the headline "Cakes that define the moment" and photos of a tiered birthday cake and a strawberry cake.',
-    caption: 'Homepage hero (desktop): a premium look, a clear value statement, and two calls to action.',
+    src: 'images/todo-app.webp',
+    width: 979,
+    height: 671,
+    alt: 'Todo app showing an add form with a priority dropdown, All / Active / Done tabs, a title search box, and four todos with High, Normal and Low priority badges and Edit and Delete buttons.',
+    caption:
+      'The app after login: add a todo with a priority, filter by status, search titles, and edit or delete inline.',
   },
   stats: [
-    { value: '8', label: 'sections: flavours, occasions, gallery, reviews, ordering' },
-    { value: '0', label: 'frameworks or JS dependencies, just hand-written HTML, CSS and JS' },
-    { value: '~48 KB', label: 'for the whole page before images, which load lazily' },
-    { value: '6', label: 'responsive breakpoints, from phone to wide desktop' },
+    { value: '8', label: 'REST endpoints for auth and todos, documented in Swagger' },
+    { value: '16', label: 'pytest tests on an isolated in-memory database' },
+    { value: '3', label: 'containers (PostgreSQL, API, nginx) started by Docker Compose' },
+    { value: '2', label: 'CI jobs on every push: backend tests, frontend type-check and build' },
   ],
   brief: [
-    'The client runs a home bakery and takes orders through Instagram. She needed one place to show the full menu, prices and past work. She wanted a site that looked as refined as her cakes and made ordering simple.',
+    'I wanted to learn Python web development by building a complete product, not by following a single tutorial: accounts, a real database, migrations, tests and a reproducible setup.',
+    'A todo app keeps the domain simple, so all the attention goes to the engineering around it: authentication, data ownership, validation and tooling.',
   ],
-  goal: 'Goal: turn visitors into Instagram DMs. Every section ends with one clear next step.',
-  deliverables: [
-    { verb: 'Visual identity:', text: 'an ivory, graphite and gold palette with Cormorant Garamond and Inter type' },
-    { verb: 'Menu:', text: 'five signature cakes with layers, tasting notes and prices' },
-    { verb: 'Occasions:', text: 'wedding cakes, custom cakes and dessert tables, each with pricing' },
-    { verb: 'Gallery, reviews', text: 'and a 3-step “How to order” section' },
-    { verb: 'Deployment', text: 'on Vercel from a GitHub repository' },
+  goal: 'Goal: anyone can clone the repo, run one command, and get the same working app and API docs.',
+  features: [
+    { verb: 'Accounts:', text: 'register and log in; passwords hashed with Argon2, sessions as JWT bearer tokens' },
+    { verb: 'Per-user data:', text: 'every query is scoped to the logged-in user, so nobody sees another user’s todos' },
+    { verb: 'Todos:', text: 'create, edit, complete and delete, with high, normal and low priority' },
+    { verb: 'Filtering:', text: 'by status and title search, with pagination and a “Load more” button' },
+    { verb: 'Validation:', text: 'bad input is rejected with clear 422 errors before it reaches the database' },
   ],
-  gallery: [
-    {
-      src: 'images/cakee-signature.webp',
-      width: 1400,
-      height: 840,
-      alt: 'Signature compositions section showing the Kinder Bueno cake with its layers and an order link.',
-      caption: '“Signature compositions”: cake cards that alternate sides, each with layers, price and an order link',
-    },
-    {
-      src: 'images/cakee-mobile.webp',
-      width: 600,
-      height: 1298,
-      alt: 'Yummy Cakee homepage on a phone-width screen.',
-      caption: 'Mobile layout (390 px)',
-      portrait: true,
-    },
-  ],
-  stepsImage: {
-    src: 'images/cakee-steps.webp',
-    width: 1400,
-    height: 612,
-    alt: 'Ordering section titled "Three simple steps": send a message, confirm the details, pickup or delivery.',
-    caption: 'The 3-step ordering flow sends every visitor to the client’s Instagram',
-  },
   technical: [
-    { verb: 'Responsive layout', text: 'with CSS Grid, Flexbox and fluid clamp() type, plus a mobile menu' },
-    { verb: 'Scroll-reveal animations', text: 'using IntersectionObserver, with no animation libraries' },
-    { verb: 'Accessibility:', text: 'descriptive alt text, ARIA labels, and support for prefers-reduced-motion' },
     {
-      verb: 'Performance & SEO:',
-      text: 'lazy-loaded images, one self-contained page, and a title and meta description written for local search',
+      verb: 'SQLModel models',
+      text: 'shared by the database table and the request and response schemas, so the API and the data stay in sync',
     },
+    {
+      verb: 'Dependency injection:',
+      text: 'the database session and the current user are FastAPI dependencies, reused by every route',
+    },
+    {
+      verb: 'Ownership check:',
+      text: 'one helper loads a todo only if it belongs to the user, and returns 404 instead of revealing that it exists',
+    },
+    {
+      verb: 'Alembic migrations',
+      text: 'run automatically when the backend container starts; the priority field arrived as a second migration',
+    },
+    {
+      verb: 'Typed API client:',
+      text: 'one TypeScript module owns every request, attaches the token, and turns FastAPI errors into readable messages',
+    },
+    {
+      verb: 'Frontend details:',
+      text: 'search is debounced by 300 ms, outdated responses are ignored, and a 401 sends the user back to the login screen',
+    },
+  ],
+  testing: [
+    {
+      verb: 'pytest + TestClient:',
+      text: 'each test gets a fresh in-memory SQLite database through dependency overrides, so tests never touch real data or need Docker',
+    },
+    {
+      verb: 'Auth tests',
+      text: 'cover the real register → login → token flow, garbage tokens, and one user trying to read another user’s todo',
+    },
+    {
+      verb: 'Docker Compose:',
+      text: 'PostgreSQL 17 with a health check, the API, and a multi-stage build that serves the React app from nginx',
+    },
+    {
+      verb: 'GitHub Actions',
+      text: 'runs the backend tests on Python 3.14, and type-checks and builds the frontend on Node 22',
+    },
+  ],
+  endpoints: [
+    { method: 'POST', path: '/auth/register', description: 'Create an account' },
+    { method: 'POST', path: '/auth/token', description: 'Log in and receive a JWT' },
+    { method: 'GET', path: '/auth/me', description: 'The logged-in user' },
+    { method: 'GET', path: '/todos', description: 'My todos: filter by status, search, paginate' },
+    { method: 'POST', path: '/todos', description: 'Create a todo' },
+    { method: 'GET', path: '/todos/{id}', description: 'One of my todos' },
+    { method: 'PUT', path: '/todos/{id}', description: 'Replace a todo' },
+    { method: 'DELETE', path: '/todos/{id}', description: 'Delete a todo' },
   ],
   outcome: [
-    'I managed a real client from start to finish: gathered the requirements, designed and built the site, and launched it in production.',
-    'I kept the build framework-free on purpose, so the page stays fast and the client can host and update it for free.',
+    'I learned a second backend stack end to end, and saw how FastAPI’s ideas (dependency injection, typed models, middleware) map to the ASP.NET Core I use in CryptoScan.',
+    'The project is built to be checked: clone it, run docker compose up, and the app, the database and the Swagger docs are all running.',
   ],
-  overviewTags: ['HTML5', 'CSS3', 'JavaScript', 'Responsive', 'Vercel'],
-  stack: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'IntersectionObserver', 'Responsive design', 'Vercel', 'Git'],
+  overviewTags: ['FastAPI', 'PostgreSQL', 'React', 'TypeScript', 'Docker'],
+  stack: [
+    'Python',
+    'FastAPI',
+    'SQLModel',
+    'Pydantic',
+    'PostgreSQL 17',
+    'Alembic',
+    'JWT (PyJWT)',
+    'Argon2 (pwdlib)',
+    'OAuth2 password flow',
+    'pytest',
+    'React 19',
+    'TypeScript',
+    'Vite',
+    'Docker',
+    'Docker Compose',
+    'nginx',
+    'GitHub Actions',
+    'Git',
+  ],
 };
 
 export const snowRemoval = {
@@ -369,4 +423,4 @@ export const snowRemoval = {
   ],
 };
 
-export const projects = [cexDex, yummyCakee, snowRemoval];
+export const projects = [cexDex, todoApp, snowRemoval];
